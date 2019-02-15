@@ -1,27 +1,30 @@
 import request from '@/utils/request'
+import Qs from 'qs'
 
-export function login(username, password) {
+export function login(adminAccountOrPhone, adminPassword) {
   return request({
-    url: '/user/login',
+    url: '/adminInfo/appAdminLogin',
     method: 'post',
-    data: {
-      username,
-      password
-    }
+    data: Qs.stringify({
+      adminAccountOrPhone,
+      adminPassword
+    })
   })
 }
 
-export function getInfo(token) {
+export function getInfo(adminId) {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: '/adminInfo/findAdminByAdminId',
+    method: 'post',
+    data: Qs.stringify({
+      adminId
+    })
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/adminInfo/findAllAdminInfo',
     method: 'post'
   })
 }

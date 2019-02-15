@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/bike': {
+        target: 'http://localhost:8080',//设置你调用的接口域名和端口号
+        changeOrigin: true, //跨域
+        pathRewrite: {
+          '^/bike': '' //这里理解成用‘/api’代替target里面的地址，
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
