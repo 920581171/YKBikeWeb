@@ -1,35 +1,34 @@
 <template>
   <div class="app-container">
-    <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column align="center" label='ID' width="95">
+    <el-table :data="list" v-loading.body="listLoading" element-loading-text="读取中" border fit highlight-current-row>
+      <el-table-column align="center" label='序号'>
         <template slot-scope="scope">
           {{scope.$index}}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column align="center" label='用户ID'>
         <template slot-scope="scope">
-          {{scope.row.title}}
+          {{scope.row.userId}}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="用户账号"align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          {{scope.row.userName}}
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
+      <el-table-column label="联系电话" align="center">
         <template slot-scope="scope">
-          {{scope.row.pageviews}}
+          {{scope.row.userPhone}}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column label="押金" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          {{scope.row.deposit}}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column label="余额" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span>{{scope.row.display_time}}</span>
+          {{scope.row.balance}}
         </template>
       </el-table-column>
     </el-table>
@@ -37,7 +36,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { findAllUserInfo } from '@/api/table'
 
 export default {
   data() {
@@ -62,8 +61,8 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data.items
+      findAllUserInfo().then(response => {
+        this.list = response.data
         this.listLoading = false
       })
     }

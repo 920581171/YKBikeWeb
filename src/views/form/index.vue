@@ -1,85 +1,172 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name"></el-input>
+      <el-form-item label="管理员姓名">
+        <el-input v-model="form.adminName" style="width: 256px;"></el-input>
       </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai"></el-option>
-          <el-option label="Zone two" value="beijing"></el-option>
-        </el-select>
+      <el-form-item label="登录账号">
+        <el-input v-model="form.adminAccount" style="width: 256px;"></el-input>
       </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-time-picker type="fixed-time" placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
-        </el-col>
+      <el-form-item label="登录密码">
+        <el-input type="password" v-model="form.adminPassword" style="width: 256px;"></el-input>
       </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery"></el-switch>
+      <el-form-item label="确认密码">
+        <el-input type="password" v-model="form.adminPasswordConfirm" style="width: 256px;"></el-input>
       </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type"></el-checkbox>
-          <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-          <el-checkbox label="Offline activities" name="type"></el-checkbox>
-          <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor"></el-radio>
-          <el-radio label="Venue"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input type="textarea" v-model="form.desc"></el-input>
+      <el-form-item label="联系电话">
+        <el-input v-model="form.adminPhone" style="width: 256px;"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
+        <el-button type="primary" @click="onSubmit">创建</el-button>
+        <el-button @click="onCancel">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+  import { mapGetters } from 'vuex'
+  import { registerAdminInfo } from '@/api/admininfo'
+
+  export default {
+    data() {
+      return {
+        form: {
+          adminName: '',
+          adminAccount: '',
+          adminPassword: '',
+          adminPasswordConfirm: '',
+          adminPhone: ''
+        }
+      }
+    },
+    mounted() {
+      if (this.adminType === '1') {
+        this.$router.push({ path: '/' })
+        this.$message({
+          message: '权限不够',
+          type: 'error',
+          duration: 3 * 1000
+        })
+      }
+    },
+    computed: {
+      ...mapGetters([
+        'adminType'
+      ])
+    },
+    methods: {
+      onSubmit() {
+        if (this.form.adminName === '') {
+          this.$message({
+            message: '管理员姓名不能为空',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        if (this.form.adminAccount === '') {
+          this.$message({
+            message: '登陆账号不能为空',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        if (this.form.adminPassword.trim().length < 8) {
+          this.$message({
+            message: '密码不能少于8位',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        if (this.form.adminPassword === '') {
+          this.$message({
+            message: '登陆密码不能为空',
+            type: 'error'
+          })
+          return
+        }
+        if (this.form.adminPassword !== this.form.adminPasswordConfirm) {
+          this.$message({
+            message: '两次密码不相同',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        if (this.form.adminPasswordConfirm === '') {
+          this.$message({
+            message: '确认密码不能为空',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        if (this.form.adminPhone === '') {
+          this.$message({
+            message: '联系电话不能为空',
+            type: 'error'
+          })
+          return
+        }
+        if (!this.checkPhone(this.form.adminPhone)) {
+          this.$message({
+            message: '联系电话不合法',
+            type: 'error',
+            duration: 3 * 1000
+          })
+          return
+        }
+        registerAdminInfo(this.form.adminAccount,
+          this.form.adminName,
+          this.form.adminPassword,
+          this.form.adminPhone
+        ).then(response => {
+          if (response.code === 1) {
+            this.$message({
+              message: '添加成功',
+              type: 'success',
+              duration: 3 * 1000
+            })
+          } else {
+            this.$message({
+              message: response.msg,
+              type: 'error',
+              duration: 3 * 1000
+            })
+          }
+        })
+      },
+      onCancel() {
+        this.form.adminAccount = ''
+        this.form.adminName = ''
+        this.form.adminPassword = ''
+        this.form.adminPasswordConfirm = ''
+        this.form.adminPhone = ''
+      },
+      checkPhone(mobile) {
+        var tel = /^0\d{2,3}-?\d{7,8}$/
+        var phone = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/
+        if (mobile.length === 11) { // 手机号码
+          if (phone.test(mobile)) {
+            return true
+          }
+        } else if (mobile.length === 13 && mobile.indexOf('-') !== -1) { // 电话号码
+          if (tel.test(mobile)) {
+            return true
+          }
+        }
+        return false
       }
     }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    }
   }
-}
 </script>
 
 <style scoped>
-.line{
-  text-align: center;
-}
+  .line {
+    text-align: center;
+  }
 </style>
 

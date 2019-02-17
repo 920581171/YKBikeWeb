@@ -1,9 +1,16 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function findAllUserInfo() {
   return request({
-    url: '/table/list',
-    method: 'get',
-    params
+    url: '/userinfo/findAllUserInfo',
+    method: 'post'
   })
 }
+
+export function findAllAdminInfo() {
+  return request({
+    url: '/adminInfo/findAllAdminInfo',
+    method: 'post'
+  })
+}
+

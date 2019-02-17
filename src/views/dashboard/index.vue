@@ -2,6 +2,7 @@
   <div class="dashboard-container">
     <div class="dashboard-text">管理员：{{adminName}}</div>
     <div class="dashboard-text">手机号：{{adminPhone}}</div>
+    <div class="dashboard-text" ref="adminType">权限：</div>
   </div>
 </template>
 
@@ -9,11 +10,16 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  mounted() {
+    const adminType = this.$refs.adminType
+    adminType.innerHTML = adminType.innerHTML + (this.adminType === '0' ? '超级管理员' : '管理员')
+  },
   name: 'dashboard',
   computed: {
     ...mapGetters([
       'adminName',
-      'adminPhone'
+      'adminPhone',
+      'adminType'
     ])
   }
 }

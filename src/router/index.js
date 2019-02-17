@@ -38,36 +38,68 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/example',
+    path: '',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '首页', icon: 'home' }
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/map',
     component: Layout,
     children: [
       {
         path: 'index',
         name: 'Form',
+        component: () => import('@/views/map/index'),
+        meta: { title: '地图', icon: 'map' }
+      }
+    ]
+  },
+
+  {
+    path: '/info',
+    component: Layout,
+    redirect: '/info/table',
+    name: 'Info',
+    meta: { title: '信息管理', icon: 'table' },
+    children: [
+      {
+        path: 'userinfo',
+        name: 'userInfo',
+        component: () => import('@/views/table/userinfo'),
+        meta: { title: '用户管理', icon: 'user' }
+      },
+      {
+        path: 'admininfo',
+        name: 'adminInfo',
+        component: () => import('@/views/table/admininfo'),
+        meta: { title: '管理员信息', icon: 'admin' }
+      },
+      {
+        path: 'adminaregister',
+        name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: '添加管理员', icon: 'admin_add' }
+      }
+    ]
+  },
+
+  {
+    path: '/about',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/about/index'),
+        meta: { title: '关于', icon: 'info' }
       }
     ]
   },

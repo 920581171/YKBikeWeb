@@ -6,7 +6,8 @@ const user = {
   state: {
     token: getToken(),
     adminName: '',
-    adminPhone: ''
+    adminPhone: '',
+    adminType: ''
   },
 
   mutations: {
@@ -18,6 +19,9 @@ const user = {
     },
     SET_ADMIN_PHONE: (state, adminPhone) => {
       state.adminPhone = adminPhone
+    },
+    SET_ADMIN_TYPE: (state, adminType) => {
+      state.adminType = adminType
     }
   },
 
@@ -48,6 +52,7 @@ const user = {
           const data = response.data
           commit('SET_ADMIN_NAME', data.adminName)
           commit('SET_ADMIN_PHONE', data.adminPhone)
+          commit('SET_ADMIN_TYPE', data.adminType)
           resolve(data)
         }).catch(error => {
           reject(error)
@@ -62,6 +67,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ADMIN_NAME', '')
           commit('SET_ADMIN_PHONE', '')
+          commit('SET_ADMIN_TYPE', '')
           removeToken()
           resolve()
         }).catch(error => {
