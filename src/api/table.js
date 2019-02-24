@@ -14,3 +14,10 @@ export function findAllAdminInfo() {
   })
 }
 
+export function findAllBikeRecord() {
+  return request({
+    url: 'bikeRecord/findAllBikeRecord',
+    method: 'post'
+  })
+}
+

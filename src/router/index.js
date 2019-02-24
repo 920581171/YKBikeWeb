@@ -92,6 +92,22 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/list',
+    component: Layout,
+    redirect: '/info/list',
+    name: 'List',
+    meta: { title: '统计报表', icon: 'list' },
+    children: [
+      {
+        path: 'bikerecord',
+        name: 'bikerecord',
+        component: () => import('@/views/table/bikerecord'),
+        meta: { title: '骑行记录', icon: 'bike' }
+      }
+    ]
+  },
+
+  {
     path: '/about',
     component: Layout,
     children: [
