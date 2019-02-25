@@ -79,7 +79,7 @@ export default {
             this.loading = false
             if (result.code === 1) {
               Message({
-                message: '登陆成功',
+                message: '登录成功',
                 type: 'success',
                 duration: 3 * 1000
               })

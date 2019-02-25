@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import Qs from 'qs'
 
 export function findAllUserInfo() {
   return request({
@@ -18,6 +19,16 @@ export function findAllBikeRecord() {
   return request({
     url: 'bikeRecord/findAllBikeRecord',
     method: 'post'
+  })
+}
+
+export function findMessageBroadByType(messageType) {
+  return request({
+    url: 'messagebroad/findMessageBroadByType',
+    method: 'post',
+    data: Qs.stringify({
+      messageType
+    })
   })
 }
 

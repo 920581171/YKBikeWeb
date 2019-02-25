@@ -28,11 +28,11 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
+    redirect: '/home',
+    name: 'Home',
     hidden: true,
     children: [{
-      path: 'dashboard',
+      path: 'home',
       component: () => import('@/views/dashboard/index')
     }]
   },
@@ -42,8 +42,8 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        path: 'dashboard',
-        name: 'Dashboard',
+        path: 'home',
+        name: 'Home',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'home' }
       }
@@ -103,6 +103,19 @@ export const constantRouterMap = [
         name: 'bikerecord',
         component: () => import('@/views/table/bikerecord'),
         meta: { title: '骑行记录', icon: 'bike' }
+      }
+    ]
+  },
+
+  {
+    path: '/broad',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/table/broad'),
+        meta: { title: '留言板', icon: 'broad' }
       }
     ]
   },
