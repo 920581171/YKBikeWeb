@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/bike': {
-        target: 'http://localhost:8080',//设置你调用的接口域名和端口号
+      '/YKBikeService': {
+        target: 'http://localhost:8080/YKBikeService',//设置你调用的接口域名和端口号
         changeOrigin: true, //跨域
         pathRewrite: {
-          '^/bike': '' //这里理解成用‘/api’代替target里面的地址，
+          '^/YKBikeService': '' //这里理解成用‘/api’代替target里面的地址，
         }
       }
     },
@@ -71,7 +71,7 @@ module.exports = {
      * then assetsPublicPath should be set to "/bar/".
      * In most cases please use '/' !!!
      */
-    assetsPublicPath: '/vueAdmin-template/', // If you are deployed on the root path, please use '/'
+    assetsPublicPath: './', // If you are deployed on the root path, please use '/'
 
     /**
      * Source Maps

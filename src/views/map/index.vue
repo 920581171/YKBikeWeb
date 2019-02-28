@@ -61,7 +61,7 @@
           })
         })
         function addBike(data) {
-          var icon = data.fix === '0' ? '../src/icons/svg/location_on.svg' : '../src/icons/svg/location_off.svg'
+          var icon = data.fix === '0' ? './static/svg/location_on.svg' : './static/svg/location_off.svg'
           marker = new AMap.Marker({
             icon: icon,
             position: [data.longitude, data.latitude]
