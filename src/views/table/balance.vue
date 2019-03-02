@@ -13,12 +13,7 @@
       </el-table-column>
       <el-table-column align="center" label="金额">
         <template slot-scope="scope">
-          {{scope.row.deposit}}
-        </template>
-      </el-table-column>
-      <el-table-column label="联系电话" align="center">
-        <template slot-scope="scope">
-          {{scope.row.userPhone}}
+          {{scope.row.balance}}
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">

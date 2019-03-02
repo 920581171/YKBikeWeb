@@ -11,9 +11,9 @@
           {{scope.row.recordId}}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="金额">
+      <el-table-column align="center" label="积分">
         <template slot-scope="scope">
-          {{scope.row.deposit}}
+          {{scope.row.score}}
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { findDepositRecordByUserId } from '@/api/table'
+import { findScoreRecordByUserId } from '@/api/table'
 
 export default {
   data() {
@@ -51,7 +51,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      findDepositRecordByUserId(this.$route.params.userId).then(response => {
+      findScoreRecordByUserId(this.$route.params.userId).then(response => {
         this.list = response.data
         this.listLoading = false
       })

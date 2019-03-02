@@ -96,7 +96,7 @@ export default {
       })
     },
     exportExcel() {
-      window.location.href = 'http://localhost:8080/YKBikeService/common/exportBikeRecord'
+      window.location.href = 'http://' + window.location.host + '/YKBikeService/common/exportBikeRecord'
     }
   }
 }

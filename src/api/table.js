@@ -51,3 +51,13 @@ export function findBalanceRecordByUserId(userId) {
     })
   })
 }
+
+export function findScoreRecordByUserId(userId) {
+  return request({
+    url: 'scorerecord/findScoreRecordByUserId',
+    method: 'post',
+    data: Qs.stringify({
+      userId
+    })
+  })
+}
