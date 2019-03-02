@@ -6,14 +6,14 @@
           {{scope.$index}}
         </template>
       </el-table-column>
-      <el-table-column align="center" label='用户ID'>
+      <el-table-column align="center" label='记录ID'>
         <template slot-scope="scope">
-          {{scope.row.userId}}
+          {{scope.row.recordId}}
         </template>
       </el-table-column>
-      <el-table-column label="用户账号"align="center">
+      <el-table-column align="center" label="金额">
         <template slot-scope="scope">
-          {{scope.row.userName}}
+          {{scope.row.deposit}}
         </template>
       </el-table-column>
       <el-table-column label="联系电话" align="center">
@@ -21,24 +21,9 @@
           {{scope.row.userPhone}}
         </template>
       </el-table-column>
-      <el-table-column label="押金" align="center">
+      <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
-          {{scope.row.deposit}}
-        </template>
-      </el-table-column>
-      <el-table-column label="余额" align="center">
-        <template slot-scope="scope">
-          {{scope.row.balance}}
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="操作" >
-        <template slot-scope="scope">
-        <el-button @click="deposit(scope.row.userId)">
-          押金
-        </el-button>
-        <el-button @click="balance(scope.row.userId)">
-          余额
-        </el-button>
+          {{scope.row.createTime}}
         </template>
       </el-table-column>
     </el-table>
@@ -46,7 +31,7 @@
 </template>
 
 <script>
-import { findAllUserInfo } from '@/api/table'
+import { findBalanceRecordByUserId } from '@/api/table'
 
 export default {
   data() {
@@ -71,16 +56,10 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      findAllUserInfo().then(response => {
+      findBalanceRecordByUserId(this.$route.params.userId).then(response => {
         this.list = response.data
         this.listLoading = false
       })
-    },
-    deposit(userId) {
-      this.$router.push({ name: 'Deposit', params: { userId: userId }})
-    },
-    balance(userId) {
-      this.$router.push({ name: 'Balance', params: { userId: userId }})
     }
   }
 }

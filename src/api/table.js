@@ -32,3 +32,22 @@ export function findMessageBroadByType(messageType) {
   })
 }
 
+export function findDepositRecordByUserId(userId) {
+  return request({
+    url: '/depositrecord/findDepositRecordByUserId',
+    method: 'post',
+    data: Qs.stringify({
+      userId
+    })
+  })
+}
+
+export function findBalanceRecordByUserId(userId) {
+  return request({
+    url: 'balancerecord/findBalanceRecordByUserId',
+    method: 'post',
+    data: Qs.stringify({
+      userId
+    })
+  })
+}

@@ -24,6 +24,8 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+  { path: '/deposit', name: 'Deposit', component: () => import('@/views/table/deposit'), hidden: true },
+  { path: '/balance', name: 'Balance', component: () => import('@/views/table/balance'), hidden: true },
 
   {
     path: '/',
