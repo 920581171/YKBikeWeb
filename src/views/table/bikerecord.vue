@@ -3,7 +3,7 @@
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="读取中" border fit highlight-current-row>
       <el-table-column align="center" label='序号'>
         <template slot-scope="scope">
-          {{scope.$index}}
+          {{scope.row.index}}
         </template>
       </el-table-column>
       <el-table-column align="center" label='订单编号ID'>
@@ -53,19 +53,34 @@
       </el-table-column>
     </el-table>
     <br>
-    <el-button @click="exportExcel">导出报表</el-button>
+    <div style="float: left">
+      <el-button @click="exportExcel">导出报表</el-button>
+    </div>
+    <div style="float: right">
+      <el-pagination
+        @current-change="changePage"
+        :current-page.sync="currentPage"
+        page-size="5"
+        layout="prev, pager, next"
+        :total="size">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { findAllBikeRecord } from '@/api/table'
-// import { exportBikeRecord } from '@/api/exportExcel'
+import { queryPageBikeRecord } from '@/api/table'
 
 export default {
+  inject: ['reload'],
   data() {
     return {
       list: null,
-      listLoading: true
+      size: 0,
+      listLoading: true,
+      currentPage: 1
     }
   },
   filters: {
@@ -81,13 +96,25 @@ export default {
   created() {
     this.fetchData()
   },
+  computed: {
+    ...mapGetters([
+      'adminType'
+    ])
+  },
   methods: {
     fetchData() {
       this.listLoading = true
       findAllBikeRecord().then(response => {
+        this.size = response.data.length
+        this.queryPage(1)
+      })
+    },
+    queryPage(pageIndex) {
+      queryPageBikeRecord(pageIndex, 5).then(response => {
         this.list = response.data
         for (var i = 0; i < response.data.length; i++) {
           var createTime = (Date.parse(response.data[i].endTime) - Date.parse(response.data[i].createTime)) / 1000
+          this.list[i].index = (pageIndex - 1) * 5 + i
           this.list[i].duration = Math.round(createTime / 60 * 100) / 100 + '分钟'
           this.list[i].endTime = response.data[i].createTime === response.data[i].endTime ? 'NULL' : response.data[i].endTime
           this.list[i].status = response.data[i].orderStatus === '1' ? '已结算' : '未结算'
@@ -96,7 +123,18 @@ export default {
       })
     },
     exportExcel() {
-      window.location.href = 'http://' + window.location.host + '/YKBikeService/common/exportBikeRecord'
+      if (this.adminType === '1') {
+        this.$message({
+          message: '权限不够',
+          type: 'error',
+          duration: 3 * 1000
+        })
+      } else {
+        window.location.href = 'http://' + window.location.host + '/YKBikeService/common/exportBikeRecord'
+      }
+    },
+    changePage() {
+      this.queryPage(this.currentPage)
     }
   }
 }

@@ -61,3 +61,14 @@ export function findScoreRecordByUserId(userId) {
     })
   })
 }
+
+export function queryPageBikeRecord(pageIndex, pageSize) {
+  return request({
+    url: 'bikeRecord/queryPageBikeRecord',
+    method: 'post',
+    data: Qs.stringify({
+      pageIndex,
+      pageSize
+    })
+  })
+}
