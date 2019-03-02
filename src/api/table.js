@@ -72,3 +72,39 @@ export function queryPageBikeRecord(pageIndex, pageSize) {
     })
   })
 }
+
+export function findAllDepositRecord() {
+  return request({
+    url: 'depositrecord/findAllDepositRecord',
+    method: 'post'
+  })
+}
+
+export function queryPageDepositRecord(pageIndex, pageSize) {
+  return request({
+    url: 'depositrecord/queryPageDepositRecord',
+    method: 'post',
+    data: Qs.stringify({
+      pageIndex,
+      pageSize
+    })
+  })
+}
+
+export function findAllBalanceRecord() {
+  return request({
+    url: 'balancerecord/findAllBalanceRecord',
+    method: 'post'
+  })
+}
+
+export function queryPageBalanceRecord(pageIndex, pageSize) {
+  return request({
+    url: 'balancerecord/queryPageBalanceRecord',
+    method: 'post',
+    data: Qs.stringify({
+      pageIndex,
+      pageSize
+    })
+  })
+}

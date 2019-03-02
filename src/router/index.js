@@ -102,8 +102,20 @@ export const constantRouterMap = [
     meta: { title: '统计报表', icon: 'list' },
     children: [
       {
+        path: 'depositrecord',
+        name: 'Depositrecord',
+        component: () => import('@/views/table/depositrecord'),
+        meta: { title: '押金出入', icon: 'deposit' }
+      },
+      {
+        path: 'balancerecord',
+        name: 'Balancerecord',
+        component: () => import('@/views/table/balancerecord'),
+        meta: { title: '余额统计', icon: 'balance' }
+      },
+      {
         path: 'bikerecord',
-        name: 'bikerecord',
+        name: 'Bikerecord',
         component: () => import('@/views/table/bikerecord'),
         meta: { title: '骑行记录', icon: 'bike' }
       }

@@ -23,21 +23,21 @@
       </el-table-column>
       <el-table-column align="center" label="押金">
         <template slot-scope="scope">
-          <el-button @click="deposit(scope.row.userId)">
+          <el-button @click="toDeposit(scope.row.userId)">
             押金（{{scope.row.deposit}}）
           </el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="余额">
         <template slot-scope="scope">
-          <el-button @click="balance(scope.row.userId)">
+          <el-button @click="toBalance(scope.row.userId)">
             余额（{{scope.row.balance}}）
           </el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="积分">
         <template slot-scope="scope">
-          <el-button @click="score(scope.row.userId)">
+          <el-button @click="toScore(scope.row.userId)">
             积分（{{scope.row.score}}）
           </el-button>
         </template>
@@ -132,13 +132,13 @@
           this.listLoading = false
         })
       },
-      deposit(userId) {
+      toDeposit(userId) {
         this.$router.push({ name: 'Deposit', params: { userId: userId }})
       },
-      balance(userId) {
+      toBalance(userId) {
         this.$router.push({ name: 'Balance', params: { userId: userId }})
       },
-      score(userId) {
+      toScore(userId) {
         this.$router.push({ name: 'Score', params: { userId: userId }})
       },
       checkResetPower(userId) {
