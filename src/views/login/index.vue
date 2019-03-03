@@ -32,6 +32,7 @@
 <script>
 import { Message } from 'element-ui'
 import { setToken } from '@/utils/auth'
+import { initWebSocket } from '@/websocket'
 
 export default {
   name: 'login',
@@ -71,6 +72,12 @@ export default {
         this.pwdType = 'password'
       }
     },
+    webSocketOnClose() {
+      alert('断开与WebScoket服务器连接')
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -85,6 +92,7 @@ export default {
               })
               setToken(result.data.adminId)
               this.$router.push({ path: '/' })
+              initWebSocket(result.data.adminId, result.data.adminPassword, this.webSocketOnClose)
             } else {
               Message({
                 message: result.msg,

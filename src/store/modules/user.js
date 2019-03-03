@@ -1,5 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, removeToken } from '@/utils/auth'
+import { closeWebSocket } from '@/websocket'
 import md5 from 'js-md5'
 
 const user = {
@@ -33,11 +34,10 @@ const user = {
       console.log(password)
       return new Promise((resolve, reject) => {
         login(username, password).then(response => {
-          const data = response
-          if (data.code !== -1 && data.data !== '') {
-            commit('SET_TOKEN', data.data.adminId)
+          if (response.code !== -1 && response.data !== '') {
+            commit('SET_TOKEN', response.data.adminId)
           }
-          resolve(data)
+          resolve(response)
         }).catch(error => {
           console.log(error)
           reject(error)
@@ -70,6 +70,7 @@ const user = {
           commit('SET_ADMIN_TYPE', '')
           removeToken()
           resolve()
+          closeWebSocket()
         }).catch(error => {
           reject(error)
         })
