@@ -19,7 +19,8 @@ export function initWebSocket(adminId, password, fun) {
     var data = {
       loginId: adminId,
       loginType: 'typeAdmin',
-      password: password
+      password: password,
+      loginDevice: 'web'
     }
     var message = {
       type: onMessage.type,
