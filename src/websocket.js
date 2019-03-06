@@ -7,7 +7,7 @@ export function initWebSocket(adminId, password, fun) {
     Message({
       message: '连接到WebScoket服务器',
       type: 'success',
-      duration: 3 * 1000
+      duration: 1000
     })
   }
   websocket.onclose = fun

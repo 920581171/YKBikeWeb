@@ -59,9 +59,35 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Form',
+        name: 'Map',
         component: () => import('@/views/map/index'),
         meta: { title: '地图', icon: 'map' }
+      }
+    ]
+  },
+
+  {
+    path: '/bikeinfo',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'BikeInfo',
+        component: () => import('@/views/table/bikeinfo'),
+        meta: { title: '车辆管理', icon: 'bike' }
+      }
+    ]
+  },
+
+  {
+    path: '/siteloaction',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'SiteLocation',
+        component: () => import('@/views/table/sitelocation'),
+        meta: { title: '站点管理', icon: 'location' }
       }
     ]
   },
@@ -87,7 +113,7 @@ export const constantRouterMap = [
       },
       {
         path: 'adminaregister',
-        name: 'Form',
+        name: 'Adminaregister',
         component: () => import('@/views/form/index'),
         meta: { title: '添加管理员', icon: 'admin_add' }
       }
@@ -128,7 +154,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Form',
+        name: 'Broad',
         component: () => import('@/views/table/broad'),
         meta: { title: '留言板', icon: 'broad' }
       }
@@ -141,7 +167,7 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'Form',
+        name: 'About',
         component: () => import('@/views/about/index'),
         meta: { title: '关于', icon: 'info' }
       }

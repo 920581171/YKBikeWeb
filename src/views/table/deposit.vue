@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column align="center" label="金额">
         <template slot-scope="scope">
-          {{scope.row.deposit}}
+          {{scope.row.depositText}}
         </template>
       </el-table-column>
       <el-table-column align="center" label="创建时间">
@@ -53,6 +53,9 @@ export default {
       this.listLoading = true
       findDepositRecordByUserId(this.$route.params.userId).then(response => {
         this.list = response.data
+        for (var i = 0; i < response.data.length; i++) {
+          this.list[i].depositText = (response.data[i].deposit > 0 ? '充值' : '退还') + Math.abs(response.data[i].deposit) + '元'
+        }
         this.listLoading = false
       })
     }

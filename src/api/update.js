@@ -13,3 +13,14 @@ export function updateMessageBroad(messageId, handlerId, handlerName, messageRep
     })
   })
 }
+
+export function addDepositRecord(userId, deposit) {
+  return request({
+    url: '/depositrecord/addDepositRecord',
+    method: 'post',
+    data: Qs.stringify({
+      userId,
+      deposit
+    })
+  })
+}

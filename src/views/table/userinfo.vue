@@ -23,8 +23,8 @@
       </el-table-column>
       <el-table-column align="center" label="押金">
         <template slot-scope="scope">
-          <el-button @click="toDeposit(scope.row.userId)">
-            押金（{{scope.row.deposit}}）
+          <el-button @click="toDeposit(scope.row.userId,scope.row.deposit)">
+            {{scope.row.depositText}}
           </el-button>
         </template>
       </el-table-column>
@@ -61,8 +61,7 @@
     <el-dialog
       title="重置密码"
       :visible.sync="dialogResetVisible"
-      width="30%"
-      :before-close="handleClose">
+      width="30%">
       <spen>确定重置用户ID：{{userId}}的密码？</spen>
       <span slot="footer" class="dialog-footer">
     <el-button @click="[dialogResetVisible = false]">取 消</el-button>
@@ -73,8 +72,7 @@
     <el-dialog
       title="重置密码"
       :visible.sync="dialogDeleteVisible"
-      width="30%"
-      :before-close="handleClose">
+      width="30%">
       <el-form :model="form">
         <el-form-item label="请确认将要删除的用户ID">
           <el-input v-model="form.userId" autocomplete="off"></el-input>
@@ -85,6 +83,17 @@
     <el-button type="primary" @click="[dialogDeleteVisible = false,del(userId)]">确 定</el-button>
     </span>
     </el-dialog>
+
+    <el-dialog
+      title="重置密码"
+      :visible.sync="dialogDepositVisible"
+      width="30%">
+      <spen>同意用户ID：{{userId}}的退还押金申请？</spen>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="[dialogDepositVisible = false]">取 消</el-button>
+    <el-button type="primary" @click="[dialogDepositVisible = false,addDeposit(userId)]">同 意</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -93,6 +102,7 @@
   import { findAllUserInfo } from '@/api/table'
   import { resetUserPassword } from '@/api/userinfo'
   import { deleteUserInfo } from '@/api/userinfo'
+  import { addDepositRecord } from '@/api/update/'
 
   export default {
     data() {
@@ -101,6 +111,7 @@
         listLoading: true,
         dialogResetVisible: false,
         dialogDeleteVisible: false,
+        dialogDepositVisible: false,
         form: {
           userId: ''
         }
@@ -129,10 +140,18 @@
         this.listLoading = true
         findAllUserInfo().then(response => {
           this.list = response.data
+          for (var i = 0; i < response.data.length; i++) {
+            this.list[i].depositText = response.data[i].deposit < 0 ? '申请退还押金' : '押金（' + response.data[i].deposit + '）'
+          }
           this.listLoading = false
         })
       },
-      toDeposit(userId) {
+      toDeposit(userId, deposit) {
+        if (deposit < 0) {
+          this.dialogDepositVisible = true
+          this.userId = userId
+          return
+        }
         this.$router.push({ name: 'Deposit', params: { userId: userId }})
       },
       toBalance(userId) {
@@ -140,6 +159,24 @@
       },
       toScore(userId) {
         this.$router.push({ name: 'Score', params: { userId: userId }})
+      },
+      addDeposit(userId) {
+        addDepositRecord(userId, 0).then(response => {
+          if (response.code === 1) {
+            this.$message({
+              message: '退还成功',
+              type: 'success',
+              duration: 3 * 1000
+            })
+            this.fetchData()
+          } else {
+            this.$message({
+              message: response.msg,
+              type: 'error',
+              duration: 3 * 1000
+            })
+          }
+        })
       },
       checkResetPower(userId) {
         if (this.adminType === '1') {
@@ -173,6 +210,7 @@
               type: 'success',
               duration: 3 * 1000
             })
+            this.fetchData()
           } else {
             this.$message({
               message: response.msg,
@@ -187,10 +225,11 @@
           deleteUserInfo(userId).then(response => {
             if (response.code === 1) {
               this.$message({
-                message: '用户已删除',
+                message: '删除成功',
                 type: 'success',
                 duration: 3 * 1000
               })
+              this.fetchData()
             } else {
               this.$message({
                 message: response.msg,
