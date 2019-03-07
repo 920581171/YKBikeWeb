@@ -14,13 +14,12 @@
     </el-dropdown>
 
     <el-dialog id="bbq"
-      title="重置密码"
+      title="更新位置"
       :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
+      width="30%">
       <spen>更新车辆ID：{{bikeId}}的位置？</spen>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="[dialogVisible = false]">取 消</el-button>
+    <el-button @click="[dialogVisible = false,cancel(bikeId)]">取 消</el-button>
     <el-button type="primary" @click="[dialogVisible = false,updateBike(bikeId)]">更 新</el-button>
       </span>
     </el-dialog>
@@ -45,8 +44,13 @@
 
   var isOpen = false
 
+  var thisDomain
+
+  var beforeData
+
   export default {
     mounted: function() {
+      thisDomain = this
       this.init()
     },
     data() {
@@ -158,9 +162,14 @@
           })
         }
       },
+      cancel(bikeId) {
+        var bikeLocation = mapBike.get(bikeId)
+        bikeLocation.setMap(null)
+        addBike(beforeData)
+      },
       updateBike(bikeId) {
         var bikeLocation = mapBike.get(bikeId)
-        updateBikeLocation(bikeId, bikeLocation.latitude, bikeLocation.longitude).then(response => {
+        updateBikeLocation(bikeId, bikeLocation.getPosition().getLat(), bikeLocation.getPosition().getLng()).then(response => {
           if (response.code === 1) {
             Message({
               message: '更新成功',
@@ -209,8 +218,11 @@
       raiseOnDrag: true
     })
     marker.on('dragstart', function() {
+      beforeData = data
     })
     marker.on('dragend', function() {
+      thisDomain.bikeId = data.bikeId
+      thisDomain.dialogVisible = true
     })
     marker.setMap(amap)
     mapBike.set(data.bikeId, marker)
