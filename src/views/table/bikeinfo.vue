@@ -33,6 +33,7 @@
     <div style="float: left">
       <el-button @click="selectAll">全选</el-button>
       <el-button @click="deleteBike">批量删除所选项</el-button>
+      <el-button @click="showCreate">批量生成二维码</el-button>
     </div>
     <div style="float: right">
       <el-pagination
@@ -45,7 +46,23 @@
     </div>
 
     <el-dialog
-      title="重置密码"
+      title="批量生成二维码"
+      :visible.sync="dialogQRCodeVisible"
+      width="30%">
+      <el-form :model="form">
+        <el-form-item label="请递增输入ID范围">
+          <el-input v-model="form.startNum" autocomplete="off"></el-input>
+          <el-input v-model="form.endNum" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="[dialogQRCodeVisible = false]">取 消</el-button>
+    <el-button type="primary" @click="[dialogQRCodeVisible = false,createQRCode()]">生 成</el-button>
+    </span>
+    </el-dialog>
+
+    <el-dialog
+      title="删除车辆"
       :visible.sync="dialogVisible"
       width="30%">
       <spen>确定删除：{{checkList.toString()}}车辆？</spen>
@@ -73,8 +90,13 @@ export default {
       listLoading: true,
       currentPage: 1,
       dialogVisible: false,
+      dialogQRCodeVisible: false,
       checkList: [],
-      disabled: []
+      disabled: [],
+      form: {
+        startNum: 0,
+        endNum: 0
+      }
     }
   },
   filters: {
@@ -160,6 +182,12 @@ export default {
       } else {
         this.checkList = ids
       }
+    },
+    showCreate() {
+      this.dialogQRCodeVisible = true
+    },
+    createQRCode() {
+      window.location.href = 'http://' + window.location.host + '/YKBikeService/common/createQRCode?startNum=' + this.form.startNum + '&endNum=' + this.form.endNum
     }
   }
 }

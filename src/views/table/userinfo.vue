@@ -70,7 +70,7 @@
     </el-dialog>
 
     <el-dialog
-      title="重置密码"
+      title="删除用户"
       :visible.sync="dialogDeleteVisible"
       width="30%">
       <el-form :model="form">
