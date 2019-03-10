@@ -1,5 +1,22 @@
 <template>
   <div class="app-container">
+    <div>
+      <el-date-picker
+        v-model="startTime"
+        type="date"
+        value-format="yyyy-MM-dd"
+        placeholder="选择开始日期">
+      </el-date-picker>
+      <el-date-picker
+        v-model="endTime"
+        type="date"
+        value-format="yyyy-MM-dd"
+        placeholder="选择结束日期">
+      </el-date-picker>
+      <el-button type="primary" @click="searchTime">搜索创建时间</el-button>
+      <el-button type="primary" @click="reset">重置</el-button>
+    </div>
+    <br>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="读取中" border fit highlight-current-row>
       <el-table-column align="center" label='序号'>
         <template slot-scope="scope">
@@ -61,6 +78,7 @@
         @current-change="changePage"
         :current-page.sync="currentPage"
         page-size="5"
+        :disabled="isChangePage"
         layout="prev, pager, next"
         :total="size">
       </el-pagination>
@@ -70,8 +88,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { findAllBikeRecord } from '@/api/table'
-import { queryPageBikeRecord } from '@/api/table'
+import { findAllBikeRecord } from '@/api/bikerecord'
+import { queryPageBikeRecord } from '@/api/bikerecord'
+import { findAllDateBikeRecord } from '@/api/bikerecord'
 
 export default {
   inject: ['reload'],
@@ -80,7 +99,10 @@ export default {
       list: null,
       size: 0,
       listLoading: true,
-      currentPage: 1
+      currentPage: 1,
+      startTime: '',
+      endTime: '',
+      isChangePage: false
     }
   },
   filters: {
@@ -135,6 +157,35 @@ export default {
     },
     changePage() {
       this.queryPage(this.currentPage)
+    },
+    searchTime() {
+      findAllDateBikeRecord(this.startTime, this.endTime).then(response => {
+        if (response.code === 1) {
+          this.list = response.data
+          for (var i = 0; i < response.data.length; i++) {
+            var createTime = (Date.parse(response.data[i].endTime) - Date.parse(response.data[i].createTime)) / 1000
+            this.list[i].index = i
+            this.list[i].duration = Math.round(createTime / 60 * 100) / 100 + '分钟'
+            this.list[i].endTime = response.data[i].createTime === response.data[i].endTime ? 'NULL' : response.data[i].endTime
+            this.list[i].status = response.data[i].orderStatus === '1' ? '已结算' : '未结算'
+          }
+          this.listLoading = false
+          this.isChangePage = true
+          this.size = 0
+        } else {
+          this.$message({
+            message: response.msg,
+            type: 'error',
+            duration: 3 * 1000
+          })
+        }
+      })
+    },
+    reset() {
+      this.startTime = ''
+      this.endTime = ''
+      this.fetchData()
+      this.isChangePage = false
     }
   }
 }

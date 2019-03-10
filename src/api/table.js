@@ -15,13 +15,6 @@ export function findAllAdminInfo() {
   })
 }
 
-export function findAllBikeRecord() {
-  return request({
-    url: 'bikeRecord/findAllBikeRecord',
-    method: 'post'
-  })
-}
-
 export function findMessageBroadByType(messageType) {
   return request({
     url: 'messagebroad/findMessageBroadByType',
@@ -62,49 +55,3 @@ export function findScoreRecordByUserId(userId) {
   })
 }
 
-export function queryPageBikeRecord(pageIndex, pageSize) {
-  return request({
-    url: 'bikeRecord/queryPageBikeRecord',
-    method: 'post',
-    data: Qs.stringify({
-      pageIndex,
-      pageSize
-    })
-  })
-}
-
-export function findAllDepositRecord() {
-  return request({
-    url: 'depositrecord/findAllDepositRecord',
-    method: 'post'
-  })
-}
-
-export function queryPageDepositRecord(pageIndex, pageSize) {
-  return request({
-    url: 'depositrecord/queryPageDepositRecord',
-    method: 'post',
-    data: Qs.stringify({
-      pageIndex,
-      pageSize
-    })
-  })
-}
-
-export function findAllBalanceRecord() {
-  return request({
-    url: 'balancerecord/findAllBalanceRecord',
-    method: 'post'
-  })
-}
-
-export function queryPageBalanceRecord(pageIndex, pageSize) {
-  return request({
-    url: 'balancerecord/queryPageBalanceRecord',
-    method: 'post',
-    data: Qs.stringify({
-      pageIndex,
-      pageSize
-    })
-  })
-}
