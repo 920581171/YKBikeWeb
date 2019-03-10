@@ -130,9 +130,9 @@ export default {
         this.list = response.data
         for (var i = 0; i < response.data.length; i++) {
           this.list[i].index = (pageIndex - 1) * 5 + i
-          this.list[i].sta = response.data[i].userId !== '' ? '使用中'
+          this.list[i].sta = response.data[i].userId !== null && response.data[i].userId !== '' ? '使用中'
             : response.data[i].fix === '1' ? '维修中' : '未使用'
-          this.disabled[i] = response.data[i].userId !== ''
+          this.disabled[i] = response.data[i].userId !== null && response.data[i].userId !== ''
         }
         this.listLoading = false
       })
