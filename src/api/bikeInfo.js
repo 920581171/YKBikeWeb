@@ -40,3 +40,10 @@ export function deleteMoreBikeInfo(bikeIds) {
     })
   })
 }
+
+export function findAllBikeType(bikeIds) {
+  return request({
+    url: 'bikeType/findAllBikeType',
+    method: 'post'
+  })
+}
