@@ -59,7 +59,7 @@ export default {
       findAllAdminInfo().then(response => {
         var datas = response.data
         for (var i = 0; i < datas.length; i++) {
-          datas[i].adminType = datas[i].adminType === '0' ? '超级管理员' : '管理员'
+          datas[i].adminType = datas[i].adminType === '0' ? '系统管理员' : '站点管理员'
         }
         this.list = response.data
         this.listLoading = false

@@ -12,7 +12,7 @@ import { mapGetters } from 'vuex'
 export default {
   mounted() {
     const adminType = this.$refs.adminType
-    adminType.innerHTML = adminType.innerHTML + (this.adminType === '0' ? '超级管理员' : '管理员')
+    adminType.innerHTML = adminType.innerHTML + (this.adminType === '0' ? '系统管理员' : '站点管理员')
   },
   name: 'dashboard',
   computed: {
