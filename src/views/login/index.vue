@@ -33,9 +33,18 @@
 import { Message } from 'element-ui'
 import { setToken } from '@/utils/auth'
 import { initWebSocket } from '@/websocket'
+import CanvasNest from 'canvas-nest.js'
 
 export default {
   name: 'login',
+  mounted() {
+    const config = {
+      color: '255,255,255',
+      count: 99
+    }
+    const el = document.querySelector('.login-container')
+    this.cn = new CanvasNest(el, config)
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length <= 0) {
