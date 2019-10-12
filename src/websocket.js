@@ -2,7 +2,7 @@ import { Message } from 'element-ui'
 var websocket
 
 export function initWebSocket(adminId, password, fun) {
-  websocket = new WebSocket('ws://127.0.0.1:8080/YKBikeService/WebSocketHandler/' + adminId)
+  websocket = new WebSocket('ws://127.0.0.1:8080/YKBikeServer/WebSocketHandler/' + adminId)
   websocket.onopen = function() {
     Message({
       message: '连接到WebScoket服务器',

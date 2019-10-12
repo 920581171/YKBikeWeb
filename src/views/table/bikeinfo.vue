@@ -246,7 +246,7 @@ export default {
       } else if (this.form.endNum.valueOf() < 100000 || this.form.endNum.valueOf() >= 1000000) {
         this.$message.error('编号范围应在100000-999999之间')
       } else {
-        window.location.href = 'http://' + window.location.host + '/YKBikeService/common/createQRCode?' +
+        window.location.href = 'http://' + window.location.host + '/YKBikeServer/common/createQRCode?' +
           'startNum=' + this.form.startNum +
           '&endNum=' + this.form.endNum +
           '&bikeType=' + this.value

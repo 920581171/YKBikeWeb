@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/YKBikeService': {
-        target: 'http://localhost:8080/YKBikeService',//设置你调用的接口域名和端口号
+      '/YKBikeServer': {
+        target: 'http://localhost:8080/YKBikeServer',//设置你调用的接口域名和端口号
         changeOrigin: true, //跨域
         pathRewrite: {
-          '^/YKBikeService': '' //这里理解成用‘/api’代替target里面的地址，
+          '^/YKBikeServer': '' //这里理解成用‘/api’代替target里面的地址，
         }
       }
     },

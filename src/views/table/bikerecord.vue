@@ -152,7 +152,7 @@ export default {
           duration: 3 * 1000
         })
       } else {
-        window.location.href = 'http://' + window.location.host + '/YKBikeService/common/exportBikeRecord'
+        window.location.href = 'http://' + window.location.host + '/YKBikeServer/common/exportBikeRecord'
       }
     },
     changePage() {

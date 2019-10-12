@@ -139,7 +139,7 @@ export default {
           duration: 3 * 1000
         })
       } else {
-        window.location.href = 'http://' + window.location.host + '/YKBikeService/common/exportBalanceRecord'
+        window.location.href = 'http://' + window.location.host + '/YKBikeServer/common/exportBalanceRecord'
       }
     },
     changePage() {
